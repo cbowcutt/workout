@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCollapse(View view) {
-        CollapseButtonView collapseButton = (CollapseButtonView) view;
-        collapseButton.collapse();
+        CollapseExpandButtonView collapseButton = (CollapseExpandButtonView) view;
+        collapseButton.toggle();
     }
 
 

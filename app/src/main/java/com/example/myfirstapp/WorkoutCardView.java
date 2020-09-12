@@ -26,7 +26,7 @@ public class WorkoutCardView extends CardView {
         this.getCollapseButton().setCollapsableView(this.getWorkoutSetView());
     }
 
-    public CollapseButtonView getCollapseButton() {
+    public CollapseExpandButtonView getCollapseButton() {
         return this.findViewById(R.id.expandCollapse);
     }
 
