@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="#AA5151"
+    android:layout_margin="2dp"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     app:layout_anchorGravity="right">
 
     <com.example.myfirstapp.WorkoutCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#AA5151"
-        app:cardBackgroundColor="#AA5151">
+        android:background="@color/colorPrimary"
+        app:cardBackgroundColor="@color/colorPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,13 +24,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#AA5151">
+                android:background="@color/colorPrimary">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cardHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#AA5151"
+                    android:background="@color/colorPrimary"
                     android:elevation="8dp"
                     android:padding="8dp"
                     android:visibility="visible"
@@ -37,15 +38,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
-                    tools:layout_editor_absoluteX="16dp">
+                    >
 
                     <com.example.myfirstapp.CollapseExpandButtonView
                         android:id="@+id/expandCollapse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="onCollapse"
                         android:text="@string/collapse"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:onClick="onCollapse"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.889"
                         app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
