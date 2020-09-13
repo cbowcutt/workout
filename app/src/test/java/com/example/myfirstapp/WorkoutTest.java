@@ -1,5 +1,6 @@
 package com.example.myfirstapp;
 
+import com.example.myfirstapp.fixtures.TestFixtures;
 import com.example.myfirstapp.models.Exercise;
 import com.example.myfirstapp.models.Workout;
 import com.example.myfirstapp.models.WorkoutSetUnit;
@@ -14,20 +15,9 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class WorkoutTest {
-
-    protected Workout createTestObject() {
-        Exercise exercise = new Exercise();
-        exercise.isWeighted = true;
-        exercise.Name = "Bench Press";
-        exercise.UnitType = WorkoutSetUnit.Repetition;
-        Workout workout = new Workout();
-        workout.exercise = exercise;
-        return workout;
-    }
-
     @Test
     public void addSet_isCorrect() {
-        Workout workout = createTestObject();
+        Workout workout = TestFixtures.createWorkoutTestObject();
         workout.addSet();
         assertEquals(workout.Set.size(), 1);
         assertEquals(workout.Set.get(0).getWorkoutSetUnit(), WorkoutSetUnit.Repetition);
