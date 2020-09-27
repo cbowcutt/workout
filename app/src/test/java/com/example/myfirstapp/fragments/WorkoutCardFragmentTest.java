@@ -11,8 +11,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.fragment.app.FragmentFactory;
+
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.example.myfirstapp.models.Workout;
+
 import static org.junit.Assert.*;
 
 
@@ -21,7 +25,5 @@ public class WorkoutCardFragmentTest {
     @Test
     public void workoutCardFragment_create() {
         fail("pending");
-        Bundle bundle = new Bundle();
-        FragmentScenario.launchInContainer(WorkoutCardFragment.class, bundle);
     }
 }

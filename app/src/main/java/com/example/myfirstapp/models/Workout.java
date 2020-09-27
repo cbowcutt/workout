@@ -10,7 +10,15 @@ public class Workout {
     public ArrayList<WorkoutSet> Set;
 
     public Workout() {
+
         this.Set = new ArrayList<WorkoutSet>();
+        this.exercise = new Exercise();
+        this.exercise.Name = "New Workout";
+        this.exercise.isWeighted = true;
+        this.exercise.UnitType = WorkoutSetUnit.Repetition;
+    }
+    public Workout(Exercise exercise) {
+        this.exercise = exercise;
     }
 
     public void addSet() {

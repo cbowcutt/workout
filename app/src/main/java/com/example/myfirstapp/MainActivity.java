@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -25,13 +26,14 @@ public class MainActivity extends AppCompatActivity implements WorkoutCardFragme
     public void sendMessage(View view) {
         getSupportFragmentManager().beginTransaction().add(R.id.exerciseCardLayout, new WorkoutCardFragment(), "workoutCard").commit();
     }
-
+    /**
     public void onAddSet(View view) {
         LayoutInflater factory = LayoutInflater.from(this);
         View myView = factory.inflate(R.layout.set_row, null);
-        TableLayout table = (TableLayout)this.findViewById(R.id.setTable);
+        TableLayout table = (TableLayout)this.findViewById(R.id.s etTable);
         table.addView(myView);
     }
+     **/
 
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutCardFragme
             WorkoutCardFragment workoutCardFragment = (WorkoutCardFragment) fragment;
         }
     }
+
 
 
 

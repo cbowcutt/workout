@@ -48,11 +48,11 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.889"
-                            app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
+                            app:layout_constraintStart_toEndOf="@+id/workoutName"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textInputLayout2"
+                            android:id="@+id/workoutName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp"
@@ -63,6 +63,7 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/workoutNameInput"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="New Workout Text"
