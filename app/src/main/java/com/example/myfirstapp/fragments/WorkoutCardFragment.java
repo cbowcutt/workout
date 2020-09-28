@@ -67,7 +67,8 @@ public class WorkoutCardFragment extends Fragment implements View.OnClickListene
             }
         };
 
-        TextInputEditText nameField = (TextInputEditText)workoutView.findViewById(R.id.workoutNameInput);
+        TextInputEditText nameField = (TextInputEditText)
+                workoutView.findViewById(R.id.workoutNameInput);
         TextWatcher textWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
@@ -96,50 +97,62 @@ public class WorkoutCardFragment extends Fragment implements View.OnClickListene
         if (v.getId() == R.id.expandCollapse) {
             this.toggle();
         }
-
     }
 
     public void onAddSet(View view) {
         LayoutInflater factory = LayoutInflater.from(this.getContext());
         final View rowView = factory.inflate(R.layout.set_row, null);
         TableLayout table = (TableLayout)this.workoutView.findViewById(R.id.setTable);
-        //rowView.findViewById();
         table.addView(rowView);
-
         this.workoutCardViewModel.addSet();
-
-        final Observer<Integer> setWeightObserver = new Observer<Integer>() {
+        final WorkoutSetViewModel newModel = new WorkoutSetViewModel();
+        workoutSets.add(newModel);
+        newModel.getWeight().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable final Integer newWeight) {
                 // Update the UI, in this case, a TextView.
-                TextInputEditText weightInput = (TextInputEditText)(rowView.findViewWithTag("set_weight_input"));
+                TextInputEditText weightInput = (TextInputEditText)
+                        (rowView.findViewWithTag("set_weight_input"));
                 weightInput.setText(newWeight.toString());
             }
-        };
-
-
-
-        final WorkoutSetViewModel newModel = new WorkoutSetViewModel();
-        newModel.getWeight().observe(getViewLifecycleOwner(), setWeightObserver);
-        workoutSets.add(newModel);
-
-        TextInputEditText weightInput = (TextInputEditText)(rowView.findViewWithTag("set_weight_input"));
-        TextWatcher textWatcher = new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
+        });
+        TextInputEditText weightInput = (TextInputEditText)
+                (rowView.findViewWithTag("set_weight_input"));
+        weightInput.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) { }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Integer currentValue = newModel.getWeight().getValue();
                 if ((currentValue == null) || !(s.toString().equals(currentValue.toString()))) {
                     newModel.setWeight(Integer.parseInt(s.toString()));
                 }
-
-
             }
-        };
-        weightInput.addTextChangedListener(textWatcher);
+        });
+        newModel.getRepetitions().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable final Integer newRepetitions) {
+                // Update the UI, in this case, a TextView.
+                TextInputEditText repetitionsInput = (TextInputEditText)
+                        (rowView.findViewWithTag("set_repetitions_input"));
+                repetitionsInput.setText(newRepetitions.toString());
+            }
+        });
+
+        TextInputEditText repetitionsInput = (TextInputEditText)
+                (rowView.findViewWithTag("set_repetitions_input"));
+        repetitionsInput.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Integer currentValue = newModel.getRepetitions().getValue();
+                // TODO: catch empty string
+                if ((currentValue == null) || (s.toString().equals("")) ||
+                    !(s.toString().equals(currentValue.toString()))) {
+                    newModel.setRepetitions(Integer.parseInt(s.toString()));
+                }
+            }
+        });
+
     }
 
     public void onSetModified(View view) {
