@@ -81,6 +81,7 @@ public class WorkoutCardFragment extends Fragment implements View.OnClickListene
         nameField.addTextChangedListener(textWatcher);
         workoutCardViewModel.getWorkoutName().observe(getViewLifecycleOwner(), nameObserver);
         this.workoutSetTableView = this.workoutView.findViewById(R.id.workout_set_tableA);
+
         return workoutView;
     }
 
@@ -94,60 +95,24 @@ public class WorkoutCardFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    private WorkoutSetViewModel createWorkoutSetViewModel() {
+        final WorkoutSetViewModel newModel = new WorkoutSetViewModel();
+        workoutSets.add(newModel);
+        return newModel;
+    }
+
+
+
+
     public void onAddSet(View view) {
         LayoutInflater factory = LayoutInflater.from(this.getContext());
         final View rowView = factory.inflate(R.layout.set_row, null);
         TableLayout table = (TableLayout)this.workoutView.findViewById(R.id.setTable);
         table.addView(rowView);
         this.workoutCardViewModel.addSet();
-        final WorkoutSetViewModel newModel = new WorkoutSetViewModel();
-        workoutSets.add(newModel);
-        newModel.getWeight().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable final Integer newWeight) {
-                // Update the UI, in this case, a TextView.
-                TextInputEditText weightInput = (TextInputEditText)
-                        (rowView.findViewWithTag("set_weight_input"));
-                weightInput.setText(newWeight.toString());
-            }
-        });
-        TextInputEditText weightInput = (TextInputEditText)
-                (rowView.findViewWithTag("set_weight_input"));
-        weightInput.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) { }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer currentValue = newModel.getWeight().getValue();
-                if ((currentValue == null) || !(s.toString().equals(currentValue.toString()))) {
-                    newModel.setWeight(Integer.parseInt(s.toString()));
-                }
-            }
-        });
-        newModel.getRepetitions().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable final Integer newRepetitions) {
-                // Update the UI, in this case, a TextView.
-                TextInputEditText repetitionsInput = (TextInputEditText)
-                        (rowView.findViewWithTag("set_repetitions_input"));
-                repetitionsInput.setText(newRepetitions.toString());
-            }
-        });
-
-        TextInputEditText repetitionsInput = (TextInputEditText)
-                (rowView.findViewWithTag("set_repetitions_input"));
-        repetitionsInput.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) { }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer currentValue = newModel.getRepetitions().getValue();
-                // TODO: catch empty string
-                if ((currentValue == null) || (s.toString().equals("")) ||
-                    !(s.toString().equals(currentValue.toString()))) {
-                    newModel.setRepetitions(Integer.parseInt(s.toString()));
-                }
-            }
-        });
-
+        final WorkoutSetViewModel newModel = createWorkoutSetViewModel();
+        observeWeightInput(rowView, newModel);
+        observeRepetitionsInput(rowView, newModel);
     }
 
     public void onSetModified(View view) {
@@ -194,4 +159,56 @@ public class WorkoutCardFragment extends Fragment implements View.OnClickListene
      public void onCollapse(View view) {
         this.toggle();
      }
+
+
+    private void observeWeightInput(final View rowView, final WorkoutSetViewModel newModel) {
+        newModel.getWeight().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable final Integer newWeight) {
+                // Update the UI, in this case, a TextView.
+                TextInputEditText weightInput = (TextInputEditText)
+                        (rowView.findViewWithTag("set_weight_input"));
+                weightInput.setText(newWeight.toString());
+            }
+        });
+        TextInputEditText weightInput = (TextInputEditText)
+                (rowView.findViewWithTag("set_weight_input"));
+        weightInput.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Integer currentValue = newModel.getWeight().getValue();
+                if ((currentValue == null) || !(s.toString().equals(currentValue.toString()))) {
+                    newModel.setWeight(Integer.parseInt(s.toString()));
+                }
+            }
+        });
+    }
+
+    private void observeRepetitionsInput(final View rowView, final WorkoutSetViewModel newModel) {
+        newModel.getRepetitions().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable final Integer newRepetitions) {
+                // Update the UI, in this case, a TextView.
+                TextInputEditText repetitionsInput = (TextInputEditText)
+                        (rowView.findViewWithTag("set_repetitions_input"));
+                repetitionsInput.setText(newRepetitions.toString());
+            }
+        });
+
+        TextInputEditText repetitionsInput = (TextInputEditText)
+                (rowView.findViewWithTag("set_repetitions_input"));
+        repetitionsInput.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Integer currentValue = newModel.getRepetitions().getValue();
+                // TODO: catch empty string
+                if ((currentValue == null) || (s.toString().equals("")) ||
+                        !(s.toString().equals(currentValue.toString()))) {
+                    newModel.setRepetitions(Integer.parseInt(s.toString()));
+                }
+            }
+        });
+    }
 }

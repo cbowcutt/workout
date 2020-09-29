@@ -23,10 +23,15 @@ public class WorkoutCardFragmentTest {
     public void setup() {
         scenario = ActivityScenario.launch(MainActivity.class);
     }
+
+    private void doTest(ActivityScenario.ActivityAction activity) {
+        ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
+        scenario.onActivity(activity);
+        scenario.recreate();
+    }
     @Test
     public void test_workoutCardFragment_create() {
-        ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
-        scenario.onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+        doTest(new ActivityScenario.ActivityAction<MainActivity>() {
             @Override
             public void perform(MainActivity Activity) {
                 assert(Activity.getSupportFragmentManager().getFragments().size() == 0);
@@ -36,25 +41,33 @@ public class WorkoutCardFragmentTest {
                 //fail("pending");
             }
         });
-        scenario.recreate();
     }
 
     @Test
-    public void test_workoutCardFragment_addSet() {
-        ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
-        scenario.onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+    public void test_workoutCardFragment_workoutSetsSizeSameAsWorkoutModelSetSize() {
+        doTest(new ActivityScenario.ActivityAction<MainActivity>() {
             @Override
             public void perform(MainActivity Activity) {
                 Activity.sendMessage(Activity.exerciseCardContainer());
                 Fragment f = Activity.getSupportFragmentManager().getFragments().get(0);
                 WorkoutCardFragment fragment = (WorkoutCardFragment) f;
-                assert(fragment.workoutSets.size() == 0);
-                fragment.onClick(f.getView().findViewById(R.id.addSetButton));
-                ArrayList<WorkoutSetViewModel> viewModels = fragment.workoutSets;
-                assert(fragment.workoutSets.size() == 1);
-                //fail("pending");
+                assert(fragment.workoutSets.size() == fragment.workoutCardViewModel.workoutModel.Set.size());
             }
         });
-        scenario.recreate();
+    }
+
+    @Test
+    public void test_workoutCardFragment_addSet() {
+        doTest(new ActivityScenario.ActivityAction<MainActivity>() {
+            @Override
+            public void perform(MainActivity Activity) {
+                Activity.sendMessage(Activity.exerciseCardContainer());
+                Fragment f = Activity.getSupportFragmentManager().getFragments().get(0);
+                WorkoutCardFragment fragment = (WorkoutCardFragment) f;
+                fragment.onClick(f.getView().findViewById(R.id.addSetButton));
+                ArrayList<WorkoutSetViewModel> viewModels = fragment.workoutSets;
+                assert(fragment.workoutSets.size() == fragment.workoutCardViewModel.workoutModel.Set.size());
+            }
+        });
     }
 }
