@@ -1,29 +1,60 @@
 package com.example.myfirstapp.fragments;
 
-import android.os.Bundle;
+import androidx.fragment.app.Fragment;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.myfirstapp.MainActivity;
+import com.example.myfirstapp.R;
+import com.example.myfirstapp.viewModels.WorkoutSetViewModel;
 
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.fragment.app.FragmentFactory;
-
-import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.example.myfirstapp.models.Workout;
-
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RunWith(AndroidJUnit4.class)
 public class WorkoutCardFragmentTest {
+    public ActivityScenario scenario;
+    @Before
+    public void setup() {
+        scenario = ActivityScenario.launch(MainActivity.class);
+    }
     @Test
-    public void workoutCardFragment_create() {
-        fail("pending");
+    public void test_workoutCardFragment_create() {
+        ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
+        scenario.onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+            @Override
+            public void perform(MainActivity Activity) {
+                assert(Activity.getSupportFragmentManager().getFragments().size() == 0);
+                Activity.sendMessage(Activity.exerciseCardContainer());
+                List<Fragment> f = Activity.getSupportFragmentManager().getFragments();
+                assert(f.size() == 1);
+                //fail("pending");
+            }
+        });
+        scenario.recreate();
+    }
+
+    @Test
+    public void test_workoutCardFragment_addSet() {
+        ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
+        scenario.onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+            @Override
+            public void perform(MainActivity Activity) {
+                Activity.sendMessage(Activity.exerciseCardContainer());
+                Fragment f = Activity.getSupportFragmentManager().getFragments().get(0);
+                WorkoutCardFragment fragment = (WorkoutCardFragment) f;
+                assert(fragment.workoutSets.size() == 0);
+                fragment.onClick(f.getView().findViewById(R.id.addSetButton));
+                ArrayList<WorkoutSetViewModel> viewModels = fragment.workoutSets;
+                assert(fragment.workoutSets.size() == 1);
+                //fail("pending");
+            }
+        });
+        scenario.recreate();
     }
 }

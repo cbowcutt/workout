@@ -1,19 +1,13 @@
 package com.example.myfirstapp;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
-import android.text.Editable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 
 import com.example.myfirstapp.fragments.WorkoutCardFragment;
-import com.example.myfirstapp.models.Workout;
 
 public class MainActivity extends AppCompatActivity implements WorkoutCardFragment.OnCollapseListener {
     @Override
