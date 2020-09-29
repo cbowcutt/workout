@@ -6,14 +6,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.myfirstapp.MainActivity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.viewModels.WorkoutSetViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.fail;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -23,7 +23,6 @@ public class WorkoutCardFragmentTest {
     public void setup() {
         scenario = ActivityScenario.launch(MainActivity.class);
     }
-
     private void doTest(ActivityScenario.ActivityAction activity) {
         ActivityScenario scenario = ActivityScenario.launch(MainActivity.class);
         scenario.onActivity(activity);
@@ -42,7 +41,6 @@ public class WorkoutCardFragmentTest {
             }
         });
     }
-
     @Test
     public void test_workoutCardFragment_workoutSetsSizeSameAsWorkoutModelSetSize() {
         doTest(new ActivityScenario.ActivityAction<MainActivity>() {
@@ -55,7 +53,6 @@ public class WorkoutCardFragmentTest {
             }
         });
     }
-
     @Test
     public void test_workoutCardFragment_addSet() {
         doTest(new ActivityScenario.ActivityAction<MainActivity>() {
@@ -65,8 +62,21 @@ public class WorkoutCardFragmentTest {
                 Fragment f = Activity.getSupportFragmentManager().getFragments().get(0);
                 WorkoutCardFragment fragment = (WorkoutCardFragment) f;
                 fragment.onClick(f.getView().findViewById(R.id.addSetButton));
-                ArrayList<WorkoutSetViewModel> viewModels = fragment.workoutSets;
                 assert(fragment.workoutSets.size() == fragment.workoutCardViewModel.workoutModel.Set.size());
+            }
+        });
+    }
+    @Test
+    public void test_workoutCardFragment_setWeightValue() {
+        doTest(new ActivityScenario.ActivityAction<MainActivity>() {
+            @Override
+            public void perform(MainActivity Activity) {
+                Activity.sendMessage(Activity.exerciseCardContainer());
+                Fragment f = Activity.getSupportFragmentManager().getFragments().get(0);
+                WorkoutCardFragment fragment = (WorkoutCardFragment) f;
+                fragment.onClick(f.getView().findViewById(R.id.addSetButton));
+                // TODO: finish
+                fail("todo");
             }
         });
     }
